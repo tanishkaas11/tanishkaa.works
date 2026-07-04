@@ -22,5 +22,38 @@ enemies = []
 
 for _ in range(5):
    angle = random.uniform(0, 360)
+   dist = random.uniform(70 , RADIUS - 20)
+   
+   x = CENTER[0] + math.cos(math.radians(angle))*dist
+   y = CENTER[1] - math.sin(math.radians(angle))*dist
+   
+   enemies.append((x, y))
+   
+enemy_memory = [0] * len(enemies)
+
+radar_angle = 0
+
+running = True
+
+while running :
+   
+   for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+         running = False
+         
+screen.fill(BLACK)
+
+for r in range(80 , RADIUS + 1, 80):
+   pygame.draw.circle(screen, DARK_GREEN, CENTER, r, 1)
+   
+pygame.draw.line(screen, DARK_GREEN, (CENTER[0] - RADIUS, CENTER[1]), (CENTER[0] + RADIUS, CENTER[1]), 1)
+pygame.draw.line(screen, DARK_GREEN, (CENTER[0], CENTER[1] - RADIUS), (CENTER[0], CENTER[1] + RADIUS), 1)
+
+for i in range(45) :
+   a = radar_angle -i*2
+   alpha = max(0 , 180 - i*4)
+   
+   
+   
    
     
