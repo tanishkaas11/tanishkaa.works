@@ -52,8 +52,51 @@ pygame.draw.line(screen, DARK_GREEN, (CENTER[0], CENTER[1] - RADIUS), (CENTER[0]
 for i in range(45) :
    a = radar_angle -i*2
    alpha = max(0 , 180 - i*4)
+   sweep = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+   pygame.draw.polygon(sweep, (0, 255, 70, alpha)),
    
+   p1 = CENTRE 
    
+   P2 =(
+      CENTER[0] + math.cos(math.radians(a-1)) * RADIUS,
+      CENTER[1] - math.sin(math.radians(a-1)) * RADIUS
+   )
    
+   P3 = (
+      CENTER[0] + math.cos(math.radians(a+1)) * RADIUS,
+      CENTER[1] - math.sin(math.radians(a+1)) * RADIUS
+   )
    
-    
+   pygame.draw.polygon(sweep, (0, 255, 70, alpha), [p1, P2, P3])
+   
+   screen.blit(sweep, (0, 0))
+   
+pygame.draw.circle(screen , GREEN , CENTER , RADIUS , 2)
+
+for i , (x , y) in enumerate(enemies):
+   
+   enemy_angle = math.degrees(math.atan2(CENTER[1] - y, x - CENTER[0]))
+   
+   diff = (radar_angle - enemy_angle + 360) % 360 - 180
+   
+   if diff < 0 :
+      enemy_memory[i] = 10
+      
+   if enemy_memory[i] > 0 :
+      enemy_memory[i] -= 1
+      glow = pygame.Surface((40, 40), pygame.SRCALPHA)
+      pygame.draw.circle(glow , (0 , 255, 70, 100), (20, 20), 14)
+
+      screen.blit(glow, (x - 20, y - 20))
+      if enemy_memory[i] % 2 == 0 :
+            pygame.draw.circle(screen, GREEN,(200 , 255 , 200) , (int(x), int(y)), 6)
+
+radar_angle += 0.8
+radar_angle %= 360
+
+pygame.display.flip()
+clock.tick(60)
+
+pygame.quit()
+
+# completed..!!
